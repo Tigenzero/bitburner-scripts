@@ -4,7 +4,7 @@
 RAM:
 */
 export async function main(ns) {
-	division = args[0]
-	city = args[1]
+	var division = args[0]
+	var city = args[1]
 	ns.corporation.expandCity(division, city)
 }
