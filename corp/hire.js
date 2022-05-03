@@ -7,7 +7,6 @@ export async function main(ns) {
 	var division = ns.args[0]
 	var city = ns.args[1]
 	var num = ns.args[2]
-	// ns.corporation.expandCity(division)
 	ns.corporation.upgradeOfficeSize(division, city, num)
 
 	for(let i = 0; i < num; i++){
