@@ -1,10 +1,9 @@
 /** @param {NS} ns */
 /*
-
-RAM:
+RAM: 1.02TB
 */
 export async function main(ns) {
-	var division = args[0]
-	var city = args[1]
-	ns.corporation.expandCity(division, city)
+	var division = ns.args[0]
+	var city = ns.args[1]
+	await ns.corporation.expandCity(division, city)
 }
