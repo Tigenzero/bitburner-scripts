@@ -4,6 +4,7 @@
  /*
 Gets stats of each hacked server.
 RAM: 2.55GB
+recommendation: alias stats="run get_stats.js"
  */
 function get_all_servers(ns, all=false) {
 	/*
