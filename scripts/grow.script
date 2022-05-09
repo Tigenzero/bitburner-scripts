@@ -1,0 +1,7 @@
+/*
+Grows the target nonstop.
+RAM:1.75GB
+*/
+while(true){
+	grow(args[0])
+}

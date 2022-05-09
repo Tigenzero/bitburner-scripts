@@ -1,0 +1,7 @@
+/*
+Weakens the target nonstop.
+RAM:1.75GB
+*/
+while(true){
+	weaken(args[0])
+}

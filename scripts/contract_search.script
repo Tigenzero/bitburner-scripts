@@ -1,0 +1,26 @@
+function check_files(server){
+	files = ls(server, ".cct")
+	if(files.length > 0) {
+		tprint(server + ":" + files)
+	}
+	return files.length
+}
+
+
+var servers = ["home"]
+var count = 0
+var i = 0
+while (i < servers.length) {
+	var server = servers[i]
+	var s = scan(server)
+	for (var j in s) {
+		var con = s[j]
+		if (servers.indexOf(con) < 0) {
+			servers.push(con)
+			var len = check_files(con)
+			count = count + len
+		}
+	}
+	i += 1
+}
+tprint("Found " + count + " contract files.")

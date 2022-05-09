@@ -1,0 +1,7 @@
+/*
+Hacks the target nonstop.
+RAM: 1.7GB
+*/
+while(true){
+	hack(args[0])
+}

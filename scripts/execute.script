@@ -1,0 +1,59 @@
+function get_action(host) {
+	var actions = ps(host)
+	if (actions.length == 0) {
+		print(host, " has no scripts.")
+		return null
+	}
+	return actions[0].filename.replace("/scripts/", "").replace(".script", "")
+}
+
+function validate(action, server, host) {
+	// Does the host exist?
+	if (!serverExists(host)) {
+		tprint(host + " does not exist. Exiting.")
+		exit()
+	}
+	// Does the server exist?
+	if (!serverExists(server)) {
+		tprint(server + " does not exist. Exiting.")
+		exit()
+	}
+	// If the server is currently running our script, leave it alone.
+	if (get_action(host) == action) {
+		print(host + " is already executing action " + action)
+		exit()
+	}
+}
+// Declare our variables
+action = args[0]
+server = args[1]
+host = args[2]
+
+// Whats our action?
+if (action == "hack") {
+	script = "/scripts/hack.script"
+} else if (action == "grow") {
+	script = "/scripts/grow.script"
+} else if (action == "weaken") {
+	script = "/scripts/weaken.script"
+} else {
+	tprint("Script unrecognized. Exiting")
+	exit()
+}
+
+/*
+- Remove any existing scripts
+- Copy our scripts to the server
+- Determine how many threads we can execute for the action script
+- Execute the script on the server
+- Print success to the terminal
+*/
+killall(host)
+exec("/scripts/copy_scripts.script", "home", 1, host)
+threads = parseInt(getServerMaxRam(host) / getScriptRam(script))
+if (threads == 0) {
+	print(host + " cannot run script. No RAM")
+	exit()
+}
+exec(script, host, threads, server)
+tprint(action, " executed on ", host, " for ", server, " with ", threads, " threads")
