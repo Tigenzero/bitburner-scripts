@@ -1,3 +1,0 @@
-while(true){
-	grow(args[0])
-}
