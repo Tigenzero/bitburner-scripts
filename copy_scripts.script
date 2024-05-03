@@ -1,4 +1,0 @@
-server = args[0];
-scp('/scripts/grow.script', server)
-scp('/scripts/hack.script', server)
-scp('/scripts/weaken.script', server)
