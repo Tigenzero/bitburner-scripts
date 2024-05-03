@@ -1,0 +1,81 @@
+disableLog('getServerSecurityLevel')
+disableLog('getServerMoneyAvailable')
+disableLog('getServerMaxMoney')
+disableLog('getServerMinSecurityLevel')
+SEC_DIF = 5
+MON_PERC = 0.75
+MON_LIMIT = 10000000
+SLEEP_TIME = 5
+servers = {'n00dles': {"action": null, "servers":[]}, 
+'foodnstuff': {"action":null, "servers":[]},
+'sigma-cosmetics': {"action":null, "servers":[]},
+'joesguns': {"action":null, "servers":[]},
+'nectar-net': {"action":null, "servers":[]},
+'hong-fang-tea': {"action":null, "servers":[]},
+'harakiri-sushi': {"action":null, "servers":[]},
+'neo-net': {"action":null, "servers":[]},
+'zer0': {"action":null, "servers":[]},
+'max-hardware': {"action":null, "servers":[]},
+'iron-gym': {"action":null, "servers":[]},
+'phantasy': {"action":null, "servers":["CSEC"]},
+'silver-helix': {"action":null, "servers":[]},
+'omega-net': {"action":null, "servers":[]},
+"the-hub": {"action":null, "servers":[]},
+"crush-fitness": {"action":null, "servers":["serv0"]}, // 0 B
+"johnson-ortho": {"action":null, "servers":['avmnite-02h']}, // 0 B
+"rothman-uni": {"action":null, "servers":[]},
+"computek": {"action":null, "servers":["I.I.I.I", "serv1"]}, // 0 B
+"millenium-fitness": {"action":null, "servers":["run4theh111z"]},
+"summit-uni": {"action":null, "servers":[]},
+"netlink": {"action":null, "servers":[]},
+"aevum-police": {"action":null, "servers":[]},
+"snap-fitness": {"action":null, "servers":["serv2"]}, // 0 B
+"catalyst": {"action":null, "servers":[]},
+"syscore": {"action":null, "servers":["serv3"]}, // 0 B
+"rho-construction": {"action":null, "servers":[]},
+"alpha-ent": {"action":null, "servers":["."]},
+"lexo-corp": {"action":null, "servers":[]},
+"zb-institute": {"action":null, "servers":[]},
+}
+
+function get_action(host){
+	actions = ps(host)
+	if (actions.length == 0) {
+		return null
+	}
+	return actions[0].filename.replace("/scripts/", "").replace(".script", "")
+}
+
+while(true){
+	for (server in servers){
+		if (!hasRootAccess(server)){
+			continue
+		}
+		money = getServerMoneyAvailable(server)
+		mon_perc = money/getServerMaxMoney(server)
+		sec_dif = getServerSecurityLevel(server) - getServerMinSecurityLevel(server)
+		message = server + " money_perc:" + mon_perc.toFixed(2) + " sec_dif:" + sec_dif + " action:"
+		// determine action
+		if(sec_dif >= SEC_DIF){action = "weaken"}
+		// else if (mon_perc < MON_PERC && money < MON_LIMIT){action = "grow"}
+		else if (mon_perc < MON_PERC){action = "grow"}
+
+		else {action = "hack"}
+
+		// get current server action if not set.
+		if (servers[server]["action"] == null) {
+			servers[server]["action"] = get_action(server)
+		}
+		// execute action if the current action is different from now one.
+		if(servers[server]["action"] != action){
+				print(message, action)
+				run("execute.script", 1, action, server, server)
+				for (i in servers[server]["servers"]) {
+					host = servers[server]["servers"][i]
+					run("execute.script", 1, action, server, host)
+				}
+				servers[server]["action"] = action
+		}
+	}
+	sleep(60000*SLEEP_TIME)
+}

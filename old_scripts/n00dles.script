@@ -1,0 +1,24 @@
+servers = ['n00dles', 
+'foodnstuff', 
+'sigma-cosmetics', 
+'joesguns',
+'hong-fang-tea',
+'harakiri-sushi',
+'max-hardware',
+'zer0',
+'CSEC',
+'neo-net',
+'phantasy'
+]
+
+MAX_SEC = 8
+MIN_MON = 2000000
+while(true) {
+	for (i in servers){
+		server = servers[i];
+		if (getServerSecurityLevel(server) > MAX_SEC && 
+		getServerMoneyAvailable(server) <= MIN_MON){
+			hack(server);
+		}
+	}
+}

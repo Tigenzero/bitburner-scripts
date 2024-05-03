@@ -1,0 +1,6 @@
+server = args[0]
+while(true) {
+	weaken(server);
+	grow(server);
+	hack(server);
+}

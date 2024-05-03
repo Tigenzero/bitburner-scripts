@@ -1,0 +1,11 @@
+server = args[0]
+ram = args[1]
+types = ["weaken", "grow"]
+for(i in types){
+	type = types[i]
+	// hostname = String(server + "-" + type).substring(0,15)
+	hostname = server + "-" + type
+
+	var p_hostname = purchaseServer(hostname, ram)
+	run("execute.script", 1, type, server, p_hostname)	
+}

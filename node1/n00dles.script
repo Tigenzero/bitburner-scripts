@@ -1,0 +1,28 @@
+// servers = ['n00dles', 'foodnstuff']
+servers = [];
+for(i in args){
+	arg = args[i];
+	servers.push(arg);
+}
+
+server = args[0]
+MAX_SEC = 7
+MIN_MON = 3000000
+while(true) {
+	for (i in servers){
+		server = servers[i];
+		if (getServerSecurityLevel(server) > MAX_SEC){
+			print('Weakening', server)
+			weaken(server);
+		}
+		else if(getServerMoneyAvailable(server) <= MIN_MON){
+			print('Growing', server)
+			grow(server);
+		}
+		else {
+			print('Hacking', server)
+			hack(server);
+		}
+	}
+	
+}

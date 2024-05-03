@@ -1,0 +1,7 @@
+upgnode = ''
+upgcost = 100*500
+upgname
+for (i in hacknetNodes){
+	node = hacknetNodes[i]
+
+}
