@@ -1,0 +1,39 @@
+function get_action(host) {
+	var actions = ps(host)
+	if (actions.length == 0) {
+		print(host, " has no scripts.")
+		return null
+	}
+	return actions[0].filename.replace("/scripts/", "").replace(".script", "")
+}
+
+action = args[0]
+server = args[1]
+host = args[2]
+if (action == "hack") {
+	script = "/scripts/hack.script"
+}
+else if (action == "grow") { 
+	script = "/scripts/grow.script"
+} else {
+	script = "/scripts/weaken.script"
+}
+if (!serverExists(host)) {
+	tprint(host + " does not exist. Exiting.")
+	exit()
+}
+
+if (get_action(host) == action){
+	print(host + " is already executing action " + action)
+	exit()
+}
+
+killall(host)
+run("copy_scripts.script", 1, host)
+threads = parseInt(getServerMaxRam(host)/getScriptRam(script))
+if (threads == 0){
+	print(host + " cannot run script. No RAM")
+	exit()
+}
+exec(script, host, threads, server)
+tprint(action, " executed on ", host, " for ", server, " with ", threads, " threads")
